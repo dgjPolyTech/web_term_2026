@@ -1,7 +1,9 @@
 package kr.ac.kopo.dgj.web_term_2026.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+@Controller
 public class MainController {
     // 로그인 페이지: http://localhost:8080/login
     @GetMapping("/login")
