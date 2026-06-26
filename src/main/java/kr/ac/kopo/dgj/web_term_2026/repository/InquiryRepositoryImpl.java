@@ -1,10 +1,12 @@
 package kr.ac.kopo.dgj.web_term_2026.repository;
 
 import kr.ac.kopo.dgj.web_term_2026.domain.Inquiry;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class InquiryRepositoryImpl implements InquiryRepository{
     private List<Inquiry> ListOfInquirys = new ArrayList<>();
 

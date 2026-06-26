@@ -50,95 +50,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="text-left">사이트 접속 지연 현상</td>
-                    <td>서울시</td>
-                    <td class="text-left">금일 오전부로 외부망 접속이 간헐적으로...</td>
-                    <td>김서울</td>
-                    <td>2026-01-01</td>
-                    <td>공담당</td>
-                    <td><span class="badge badge-waiting">처리 대기</span></td>
-                </tr>
-                <tr>
-                    <td class="text-left">간편인증 로그인 오류</td>
-                    <td>부산시</td>
-                    <td class="text-left">카카오톡 인증 로그인 시 500 에러가 발생...</td>
-                    <td>박부산</td>
-                    <td>2026-01-02</td>
-                    <td>이담당</td>
-                    <td><span class="badge badge-done">처리 완료</span></td>
-                </tr>
-                <tr>
-                    <td class="text-left">결산 데이터 엑셀 다운로드 실패</td>
-                    <td>대구시</td>
-                    <td class="text-left">2025년 하반기 통계 자료 추출 시 파일...</td>
-                    <td>최대구</td>
-                    <td>2026-01-02</td>
-                    <td>정담당</td>
-                    <td><span class="badge badge-progress">진행 중</span></td>
-                </tr>
-                <tr>
-                    <td class="text-left">메인 홍보 배너 교체 요청</td>
-                    <td>인천시</td>
-                    <td class="text-left">신년 맞이 가로형 배너 이미지 반영 건...</td>
-                    <td>정인천</td>
-                    <td>2026-01-03</td>
-                    <td>강담당</td>
-                    <td><span class="badge badge-done">처리 완료</span></td>
-                </tr>
-                <tr>
-                    <td class="text-left">민원 게시판 첨부파일 용량 확장</td>
-                    <td>광주시</td>
-                    <td class="text-left">기존 10MB 제한을 50MB로 상향 조절...</td>
-                    <td>이광주</td>
-                    <td>2026-01-03</td>
-                    <td>공담당</td>
-                    <td><span class="badge badge-waiting">처리 대기</span></td>
-                </tr>
-                <tr>
-                    <td class="text-left">영문 페이지 오탈자 수정 건</td>
-                    <td>대전시</td>
-                    <td class="text-left">인사말 메뉴 내 서브 타이틀 스펠링...</td>
-                    <td>한대전</td>
-                    <td>2026-01-04</td>
-                    <td>이담당</td>
-                    <td><span class="badge badge-done">처리 완료</span></td>
-                </tr>
-                <tr>
-                    <td class="text-left">알림톡 발송 실패 현상</td>
-                    <td>울산시</td>
-                    <td class="text-left">민원 접수 완료 시 카카오 알림톡이...</td>
-                    <td>조울산</td>
-                    <td>2026-01-04</td>
-                    <td>정담당</td>
-                    <td><span class="badge badge-progress">진행 중</span></td>
-                </tr>
-                <tr>
-                    <td class="text-left">인사 이동에 따른 관리자 권한 변경</td>
-                    <td>세종시</td>
-                    <td class="text-left">조직 개편으로 인한 신규 담당자 계정...</td>
-                    <td>유세종</td>
-                    <td>2026-01-05</td>
-                    <td>강담당</td>
-                    <td><span class="badge badge-waiting">처리 대기</span></td>
-                </tr>
-                <tr>
-                    <td class="text-left">웹 접근성 인증 마크 갱신 문의</td>
-                    <td>경기도</td>
-                    <td class="text-left">올해 심사 일정 및 사전 점검 요청의 건...</td>
-                    <td>최경기</td>
-                    <td>2026-01-05</td>
-                    <td>공담당</td>
-                    <td><span class="badge badge-progress">진행 중</span></td>
-                </tr>
-                <tr>
-                    <td class="text-left">모바일 버전 푸터 레이아웃 깨짐</td>
-                    <td>강원도</td>
-                    <td class="text-left">태블릿 화면에서 하단 저작권 표시가...</td>
-                    <td>백강원</td>
-                    <td>2026-01-06</td>
-                    <td>이담당</td>
-                    <td><span class="badge badge-done">처리 완료</span></td>
+                <tr th:each="inquiry : ${inquiryList}">
+                    <td class="text-left">
+                        <a th:href="@{/detail(id=${inquiry.inquiryId})}" th:text="${inquiry.title}">제목</a>
+                    </td>
+                    <td th:text="${inquiry.organization}">기관</td>
+                    <td class="text-left" th:text="${inquiry.contents}">내용</td>
+                    <td th:text="${inquiry.requester}">작성자</td>
+                    <td th:text="${#temporals.format(inquiry.registrationDate, 'yyyy-MM-dd')}">작성일</td>
+                    <td th:text="${inquiry.manager}">담당자</td>
+                    <td>
+                        <span th:if="${inquiry.status.name() == 'WAITING'}" class="badge badge-waiting">처리 대기</span>
+                        <span th:if="${inquiry.status.name() == 'IN_PROGRESS'}" class="badge badge-progress">진행 중</span>
+                        <span th:if="${inquiry.status.name() == 'DONE'}" class="badge badge-done">처리 완료</span>
+                    </td>
                 </tr>
             </tbody>
         </table>
