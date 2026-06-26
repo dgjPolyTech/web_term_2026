@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class Inquiry {
-    @Pattern(regexp = "^ISIN-\\d{4}$", message = "문의 번호는 ISIN-0001 형식이어야 합니다.")
+//    @Pattern(regexp = "^ISIN-\\d{4}$", message = "문의 번호는 ISIN-0001 형식이어야 합니다.")
     private String inquiryId;
 
     private String title; // 문의 제목

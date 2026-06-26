@@ -1,11 +1,10 @@
-package kr.ac.kopo.dgj.web_term_2026.repository;
+package kr.ac.kopo.dgj.web_term_2026.InquiryService;
 
 import kr.ac.kopo.dgj.web_term_2026.domain.Inquiry;
 
 import java.util.List;
 
-public interface InquiryRepository {
-
+public interface InquiryService {
     List<Inquiry> getAllInquiryList(); // 문의 리스트
 
     Inquiry getInquiryId(String inquiryId); // 특정 문의 가져오기
