@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DGJS 유지보수 문의 게시판</title>
+    <link rel="stylesheet" href="view_input.css">
+</head>
+<body>
+
+<header class="top-bar">
+    <div class="header-container">
+        <h1 class="logo">DGJS <span>유지보수 문의 게시판</span></h1>
+        <button type="button" class="logout-btn">로그아웃</button>
+    </div>
+</header>
+
+<main class="content-container">
+    <div class="action-bar">
+        <button type="button" class="nav-btn">메인 페이지</button>
+        <span class="info-text">* 기관 정보 및 작성일은 등록 시 자동 입력됩니다.</span>
+    </div>
+
+    <form>
+        <div class="form-container">
+            <table class="form-table">
+            <colgroup>
+                <col style="width: 20%;">
+                <col style="width: 80%;">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th>제목 <span class="required">*</span></th>
+                <td>
+                    <input type="text" class="input-text" placeholder="제목을 입력해 주세요.">
+                </td>
+            </tr>
+            <tr>
+                <th>작성자</th>
+                <td>
+                    <span class="static-text">김서울</span>
+                </td>
+            </tr>
+            <tr>
+                <th>담당자 <span class="required">*</span></th>
+                <td>
+                    <input type="text" class="input-text short" value="김담당">
+                </td>
+            </tr>
+            <tr>
+                <th>내용 <span class="required">*</span></th>
+                <td>
+                    <textarea class="input-textarea" placeholder="내용을 입력해 주세요." oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight + 2) + 'px';"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>파일 첨부</th>
+                <td>
+                    <div class="file-upload-box">
+                        <label for="file-input" class="file-btn">파일 첨부</label>
+                        <input type="file" id="file-input" class="file-hidden">
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div class="button-group">
+            <button type="submit" class="btn btn-submit">수정</button>
+            <button type="button" class="btn btn-delete">삭제</button>
+        </div>
+    </form>
+</main>
+
+</body>
+</html>

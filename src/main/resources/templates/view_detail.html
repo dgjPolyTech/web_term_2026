@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>DGJ 서비스 유지보수 문의 게시판 - 상세</title>
+    <link rel="stylesheet" href="view_detail.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <h1 class="logo"><span class="brand-highlight">DGJ 서비스</span> 유지보수 문의 게시판</h1>
+            <div class="user-menu">
+                <span class="welcome-msg">000 담당자님, 환영합니다.</span>
+                <a href="#">사용자 정보</a>
+                <a href="#">로그아웃</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="detail-wrap">
+            <div class="top-actions">
+                <a href="view_main.html" class="btn btn-back">← 메인 페이지로</a>
+            </div>
+
+            <section class="detail-section">
+                <table class="detail-table">
+                    <tbody>
+                        <tr>
+                            <th>제목</th>
+                            <td colspan="3">간편인증 로그인 오류</td>
+                        </tr>
+                        <tr>
+                            <th>기관</th>
+                            <td>부산시</td>
+                            <th>작성일</th>
+                            <td>2026-01-02</td>
+                        </tr>
+                        <tr>
+                            <th>작성자</th>
+                            <td>박부산</td>
+                            <th>처리 상태</th>
+                            <td><span class="badge badge-done">처리 완료</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="content-box">
+                    카카오톡 인증을 통한 간편 로그인 시도 시, 화면이 하얗게 변하며 500 내부 서버 오류가 발생합니다.<br>
+                    어제 오전부터 해당 현상이 간헐적으로 발생하다가 현재는 모든 기기에서 100% 재현되고 있습니다.<br><br>
+                    시민들의 민원이 접수되고 있으니, 조속한 확인 및 조치 부탁드립니다.
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <section class="detail-section">
+                <table class="detail-table">
+                    <tbody>
+                        <tr>
+                            <th>제목</th>
+                            <td colspan="3">[답변] 간편인증 로그인 오류 조치 완료</td>
+                        </tr>
+                        <tr>
+                            <th>담당자</th>
+                            <td>이담당</td>
+                            <th>처리일</th>
+                            <td>2026-01-02 15:30</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="content-box">
+                    안녕하세요. DGJ 서비스 유지보수 담당자 이담당입니다.<br><br>
+                    신고해주신 간편인증 로그인 오류 현상을 확인하였으며, 내부 인증 서버와 카카오 API 간의 통신 과정에서 보안 토큰이 만료되어 발생한 문제로 파악되었습니다.<br>
+                    현재 시스템 내 토큰 자동 갱신 로직을 수정하여 긴급 패치를 완료하였으며, 정상적으로 간편 로그인이 가능한 것을 테스트 확인했습니다.<br><br>
+                    서비스 이용에 불편을 드려 대단히 죄송합니다. 추가적인 문의 사항이 있으시면 언제든 재문의 부탁드립니다.
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <div class="button-group">
+                <button class="btn btn-default">목록</button>
+                <button class="btn btn-default">출력</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-info">
+                <span class="company-name">DGJ 서비스</span>
+                <span>대표이사: 김대표</span>
+                <span>사업자등록번호: 123-45-67890</span>
+                <span>주소: 서울특별시 용산구 보광동 123-45 DGJ 빌딩 3층</span>
+            </div>
+            <div class="footer-contact">
+                <span>TEL: 02-1234-5678</span>
+                <span>FAX: 02-1234-5679</span>
+                <span>Email: support@dgjservice.com</span>
+            </div>
+            <div class="footer-copyright">
+                &copy; 2026 DGJ Service Co., Ltd. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

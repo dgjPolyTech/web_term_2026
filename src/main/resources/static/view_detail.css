@@ -1,0 +1,222 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Malgun Gothic', dotum, sans-serif;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f8fafc; 
+}
+
+.header {
+    background-color: #556073;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.brand-highlight {
+    color: #90caf9;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+}
+
+.welcome-msg {
+    color: #ffffff;
+    font-size: 13px;
+    margin-right: 10px;
+}
+
+.user-menu a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 15px;
+    font-size: 13px;
+    transition: color 0.2s;
+}
+
+.user-menu a:hover {
+    color: #90caf9;
+}
+
+.main-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 0;
+    flex: 1;
+    width: 100%;
+}
+
+/* 상세 페이지 전용 스타일 */
+.detail-wrap {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 40px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* 상단 뒤로가기 버튼 영역 */
+.top-actions {
+    margin-bottom: 20px;
+}
+
+.btn-back {
+    background-color: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    font-weight: bold;
+}
+
+.btn-back:hover {
+    background-color: #e2e8f0;
+    color: #334155;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.badge-done {
+    background-color: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
+}
+
+.detail-section {
+    margin-bottom: 20px;
+}
+
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    border-top: 2px solid #64748b;
+}
+
+.detail-table th, .detail-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.detail-table th {
+    background-color: #f8fafc;
+    color: #334155;
+    font-weight: bold;
+    width: 15%;
+    text-align: left;
+    border-right: 1px solid #e2e8f0;
+}
+
+.detail-table td {
+    width: 35%;
+    color: #0f172a;
+}
+
+.detail-table th:nth-of-type(2) {
+    border-left: 1px solid #e2e8f0;
+}
+
+.content-box {
+    padding: 30px 10px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #334155;
+    min-height: 200px;
+}
+
+.divider {
+    border: 0;
+    border-top: 1px solid #cbd5e1;
+    margin: 30px 0;
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* 버튼 공통 스타일 */
+.btn {
+    display: inline-block;
+    padding: 8px 24px;
+    font-size: 13px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-default {
+    background-color: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+}
+
+.btn-default:hover {
+    background-color: #e2e8f0;
+}
+
+/* 푸터 스타일 */
+.footer {
+    background-color: #f1f5f9;
+    padding: 30px 0;
+    width: 100%;
+    font-size: 13px;
+    color: #64748b;
+    border-top: 1px solid #e2e8f0;
+}
+
+.footer-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-info span, .footer-contact span {
+    margin-right: 15px;
+}
+
+.company-name {
+    font-weight: bold;
+    color: #334155;
+    font-size: 14px;
+}
+
+.footer-copyright {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #94a3b8;
+}
