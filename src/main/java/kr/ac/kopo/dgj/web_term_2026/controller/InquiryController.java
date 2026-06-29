@@ -70,8 +70,23 @@ public class InquiryController {
 
     // 문의 등록 처리: http://localhost:8081/input (POST)
     @PostMapping("/input")
-    public String submitInput(@ModelAttribute Inquiry inquiry) {
-        inquiryService.setNewInquiry(inquiry);
+    public String submitInput(@ModelAttribute Inquiry inquiry) throws java.io.IOException {
+        // 파일 업로드 처리
+        if (inquiry.getAttachedFile() != null && !inquiry.getAttachedFile().isEmpty()) {
+            org.springframework.web.multipart.MultipartFile file = inquiry.getAttachedFile();
+            String fullPath = "D:/upload/" + file.getOriginalFilename();
+            file.transferTo(new java.io.File(fullPath));
+            inquiry.setFileName(file.getOriginalFilename());
+        }
+
+        // 새 문의 등록을 위한 메타데이터 임의 세팅 (테스트용)
+        if (inquiry.getInquiryId() == null || inquiry.getInquiryId().isEmpty()) {
+            inquiry.setInquiryId("ISIN-" + String.format("%04d", (int)(Math.random() * 9000) + 1000));
+            inquiry.setRegistrationDate(java.time.LocalDateTime.now());
+            inquiry.setStatus(kr.ac.kopo.dgj.web_term_2026.domain.InquiryStatus.WAITING);
+            inquiryService.setNewInquiry(inquiry);
+        }
+
         return "redirect:/main";
     }
 }
