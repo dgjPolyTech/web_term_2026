@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,12 +17,18 @@
 
 <main class="content-container">
     <div class="action-bar">
-        <button type="button" class="nav-btn">메인 페이지</button>
+        <button type="button" class="nav-btn" th:onclick="|location.href='@{/main}'|">메인 페이지</button>
 <!--        아래 기능은 추후 고도화 시 추가 -->
 <!--        <span class="info-text">* 기관 정보 및 작성일은 등록 시 자동 입력됩니다.</span>-->
     </div>
 
-    <form th:action="@{/input}" method="post" enctype="multipart/form-data">
+    <form th:action="@{${inquiry == null ? '/input' : (reply == null ? '/reply' : '/reply/update')}}" method="post" enctype="multipart/form-data">
+        <th:block th:if="${inquiry != null}">
+            <input type="hidden" name="inquiryId" th:value="${inquiry.inquiryId}">
+        </th:block>
+        <th:block th:if="${reply != null}">
+            <input type="hidden" name="replyId" th:value="${reply.replyId}">
+        </th:block>
         <div class="form-container">
             <table class="form-table">
             <colgroup>
@@ -33,13 +39,21 @@
             <tr>
                 <th>제목 <span class="required">*</span></th>
                 <td>
-                    <input type="text" name="title" class="input-text" placeholder="제목을 입력해 주세요." required>
+                    <input type="text" name="title" class="input-text" placeholder="제목을 입력해 주세요." required
+                           th:value="${#authorization.expression('hasRole(''ADMIN'')') and inquiry != null ? '[' + inquiry.title + '에 대한 답변]' : ''}">
                 </td>
             </tr>
             <tr>
                 <th>작성자명 <span class="required">*</span></th>
                 <td>
-                    <input type="text" name="requester" class="input-text short" value="" required>
+                    <th:block sec:authorize="hasRole('USER')">
+                        김유저
+                        <input type="hidden" name="requester" value="김유저">
+                    </th:block>
+                    <th:block sec:authorize="!hasRole('USER')">
+                        <span th:text="${inquiry != null ? inquiry.requester : ''}"></span>
+                        <input type="hidden" name="requester" th:value="${inquiry != null ? inquiry.requester : ''}">
+                    </th:block>
                 </td>
             </tr>
             <tr>
@@ -51,13 +65,19 @@
             <tr>
                 <th>담당자 <span class="required">*</span></th>
                 <td>
-                    <input type="text" name="manager" class="input-text short" value="김담당">
+                    <th:block sec:authorize="hasRole('ADMIN')">
+                        김담당
+                        <input type="hidden" name="manager" value="김담당">
+                    </th:block>
+                    <th:block sec:authorize="!hasRole('ADMIN')">
+                        <input type="text" name="manager" class="input-text short">
+                    </th:block>
                 </td>
             </tr>
             <tr>
                 <th>내용 <span class="required">*</span></th>
                 <td>
-                    <textarea name="contents" class="input-textarea" placeholder="내용을 입력해 주세요." oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight + 2) + 'px';" required></textarea>
+                    <textarea th:name="${inquiry != null ? 'replyContents' : 'contents'}" class="input-textarea" placeholder="내용을 입력해 주세요." oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight + 2) + 'px';" required th:text="${reply != null ? reply.replyContents : ''}"></textarea>
                 </td>
             </tr>
             <tr>

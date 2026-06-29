@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>DGJS 유지보수 문의 게시판</title>
@@ -10,9 +10,11 @@
         <div class="header-inner">
             <h1 class="logo"><span class="brand-highlight">DGJS</span> 유지보수 문의 게시판</h1>
             <div class="user-menu">
-                <span class="welcome-msg">000 담당자님, 환영합니다.</span>
+                <span class="welcome-msg" sec:authorize="hasRole('ADMIN')">Admin 님, 환영합니다.</span>
+                <span class="welcome-msg" sec:authorize="hasRole('USER')">User 님, 환영합니다.</span>
+                <span class="welcome-msg" sec:authorize="!isAuthenticated()">로그인이 필요합니다.</span>
                 <a href="#">사용자 정보</a>
-                <a href="#">로그아웃</a>
+                <a th:href="@{/logout}">로그아웃</a>
             </div>
         </div>
     </header>
@@ -27,6 +29,7 @@
             </ul>
         </div>
 
+        <th:block sec:authorize="isAuthenticated()">
         <div class="search-wrap">
             <select class="search-select">
                 <option>제목</option>
@@ -73,9 +76,10 @@
                 &lt; 1/10 &gt;
             </div>
             <div>
-                <a th:href="@{/input}" class="btn-write" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">글쓰기</a>
+                <a th:href="@{/input}" class="btn-write" sec:authorize="hasRole('USER')" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">글쓰기</a>
             </div>
         </div>
+        </th:block>
     </main>
 
     <footer class="footer">

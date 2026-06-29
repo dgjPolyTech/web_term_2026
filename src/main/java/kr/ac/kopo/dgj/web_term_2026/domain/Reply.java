@@ -11,4 +11,7 @@ public class Reply {
     private String manager;          // 담당자명
     private String replyContents;    // 답변 내용
     private LocalDateTime replyDate; // 처리(등록)일시
+    
+    private String fileName;         // 첨부파일 이름
+    private org.springframework.web.multipart.MultipartFile attachedFile; // 파일 업로드용
 }
