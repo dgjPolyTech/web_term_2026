@@ -91,12 +91,26 @@
             <div class="button-group" sec:authorize="hasRole('ADMIN')">
                 <!-- 답변 없을 때: [답변 등록] -->
                 <a th:if="${reply == null}"
-                   th:href="@{/input(id=${inquiry.inquiryId})}"
+                   th:href="${inquiry.manager == '김담당'} ? @{/input(id=${inquiry.inquiryId})} : 'javascript:void(0);'"
+                   th:onclick="${inquiry.manager != '김담당'} ? 'alert(\'수정 권한이 없습니다.\'); return false;' : ''"
                    class="btn btn-primary">답변 등록</a>
                 <!-- 답변 있을 때: [답변 수정] -->
                 <a th:if="${reply != null}"
-                   th:href="@{/input(id=${inquiry.inquiryId})}"
+                   th:href="${inquiry.manager == '김담당'} ? @{/input(id=${inquiry.inquiryId})} : 'javascript:void(0);'"
+                   th:onclick="${inquiry.manager != '김담당'} ? 'alert(\'수정 권한이 없습니다.\'); return false;' : ''"
                    class="btn btn-primary">답변 수정</a>
+            </div>
+
+            <div class="button-group" sec:authorize="hasRole('USER')">
+                <!-- USER가 처리 대기 상태이면서 본인(김유저)의 글일 때만 [게시글 수정] 및 [게시글 삭제] -->
+                <a th:if="${inquiry?.status?.name() == 'WAITING' and inquiry?.requester == '김유저'}"
+                   th:href="@{/input(id=${inquiry.inquiryId})}"
+                   class="btn btn-primary">게시글 수정</a>
+                <form th:if="${inquiry?.status?.name() == 'WAITING' and inquiry?.requester == '김유저'}" 
+                      th:action="@{/inquiry/delete}" method="post" style="display:inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                    <input type="hidden" name="inquiryId" th:value="${inquiry.inquiryId}">
+                    <button type="submit" class="btn btn-delete">게시글 삭제</button>
+                </form>
             </div>
         </div>
     </main>

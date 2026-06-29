@@ -47,4 +47,14 @@ public class InquiryServiceImpl implements InquiryService{
     public void updateInquiryStatus(String inquiryId, InquiryStatus status) {
         inquiryRepository.updateInquiryStatus(inquiryId, status);
     }
+
+    @Override
+    public void updateInquiry(Inquiry inquiry) {
+        inquiryRepository.updateInquiry(inquiry);
+    }
+
+    @Override
+    public void deleteInquiry(String inquiryId) {
+        inquiryRepository.deleteInquiry(inquiryId);
+    }
 }

@@ -46,13 +46,18 @@ public class ReplyController {
 
     // 답변 수정: POST /reply/update
     @PostMapping("/reply/update")
-    public String updateReply(@ModelAttribute Reply reply, @RequestParam(value = "status", required = false) kr.ac.kopo.dgj.web_term_2026.domain.InquiryStatus status) throws java.io.IOException {
-        if (reply.getAttachedFile() != null && !reply.getAttachedFile().isEmpty()) {
+    public String updateReply(@ModelAttribute Reply reply, 
+                              @RequestParam(value = "status", required = false) kr.ac.kopo.dgj.web_term_2026.domain.InquiryStatus status,
+                              @RequestParam(value = "removeFile", defaultValue = "false") boolean removeFile) throws java.io.IOException {
+        if (removeFile) {
+            reply.setFileName(null);
+        } else if (reply.getAttachedFile() != null && !reply.getAttachedFile().isEmpty()) {
             org.springframework.web.multipart.MultipartFile file = reply.getAttachedFile();
             String fullPath = "D:/upload/" + file.getOriginalFilename();
             file.transferTo(new java.io.File(fullPath));
             reply.setFileName(file.getOriginalFilename());
         }
+        
         replyService.updateReply(reply);
         if (status != null) {
             inquiryService.updateInquiryStatus(reply.getInquiryId(), status);

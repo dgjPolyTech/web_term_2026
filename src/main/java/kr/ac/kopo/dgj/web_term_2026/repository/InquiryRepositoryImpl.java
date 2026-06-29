@@ -18,7 +18,7 @@ public class InquiryRepositoryImpl implements InquiryRepository{
         inquiry1.setTitle("도로 파손 복구 요청");
         inquiry1.setRequester("홍길동");
         inquiry1.setOrganization("서울시청");
-        inquiry1.setManager("김철수");
+        inquiry1.setManager("김담당"); // 김담당으로 수정
         inquiry1.setContents("강남대로 123 앞 도로가 파손되어 불편합니다.");
         inquiry1.setRegistrationDate(java.time.LocalDateTime.now());
         inquiry1.setStatus(kr.ac.kopo.dgj.web_term_2026.domain.InquiryStatus.WAITING);
@@ -29,7 +29,7 @@ public class InquiryRepositoryImpl implements InquiryRepository{
         inquiry2.setTitle("가로등 고장 신고");
         inquiry2.setRequester("이순신");
         inquiry2.setOrganization("강남구청");
-        inquiry2.setManager("박영희");
+        inquiry2.setManager("이담당"); // 이담당으로 수정
         inquiry2.setContents("역삼동 456 골목 가로등이 며칠째 안 켜집니다.");
         inquiry2.setRegistrationDate(java.time.LocalDateTime.now().minusDays(1));
         inquiry2.setStatus(kr.ac.kopo.dgj.web_term_2026.domain.InquiryStatus.IN_PROGRESS);
@@ -40,7 +40,7 @@ public class InquiryRepositoryImpl implements InquiryRepository{
         inquiry3.setTitle("불법 주차 단속 요청");
         inquiry3.setRequester("강감찬");
         inquiry3.setOrganization("서초구청");
-        inquiry3.setManager("이민수");
+        inquiry3.setManager("임담당"); // 임담당으로 수정
         inquiry3.setContents("서초대로 789 앞에 불법 주차된 차량들이 많습니다.");
         inquiry3.setRegistrationDate(java.time.LocalDateTime.now().minusDays(2));
         inquiry3.setStatus(kr.ac.kopo.dgj.web_term_2026.domain.InquiryStatus.DONE);
@@ -49,7 +49,12 @@ public class InquiryRepositoryImpl implements InquiryRepository{
 
     @Override
     public List<Inquiry> getAllInquiryList() {
-        return ListOfInquirys;
+        List<Inquiry> sortedList = new ArrayList<>(ListOfInquirys);
+        sortedList.sort((i1, i2) -> {
+            if (i1.getRegistrationDate() == null || i2.getRegistrationDate() == null) return 0;
+            return i2.getRegistrationDate().compareTo(i1.getRegistrationDate());
+        });
+        return sortedList;
     }
 
     @Override
@@ -94,6 +99,11 @@ public class InquiryRepositoryImpl implements InquiryRepository{
                 searchResult.add(inquiry);
             }
         }
+        
+        searchResult.sort((i1, i2) -> {
+            if (i1.getRegistrationDate() == null || i2.getRegistrationDate() == null) return 0;
+            return i2.getRegistrationDate().compareTo(i1.getRegistrationDate());
+        });
         return searchResult;
     }
 
@@ -142,5 +152,22 @@ public class InquiryRepositoryImpl implements InquiryRepository{
         if (inquiry != null) {
             inquiry.setStatus(status);
         }
+    }
+
+    @Override
+    public void updateInquiry(Inquiry updated) {
+        Inquiry existing = getInquiryId(updated.getInquiryId());
+        if (existing != null) {
+            existing.setTitle(updated.getTitle());
+            existing.setOrganization(updated.getOrganization());
+            existing.setContents(updated.getContents());
+            existing.setFileName(updated.getFileName());
+            // requester and registrationDate usually remain unchanged.
+        }
+    }
+
+    @Override
+    public void deleteInquiry(String inquiryId) {
+        ListOfInquirys.removeIf(inquiry -> inquiry != null && inquiryId.equals(inquiry.getInquiryId()));
     }
 }

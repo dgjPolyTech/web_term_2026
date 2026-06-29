@@ -20,7 +20,7 @@
             <!--        <span class="info-text">* 기관 정보 및 작성일은 등록 시 자동 입력됩니다.</span>-->
         </div>
 
-        <form th:action="@{${inquiry == null ? '/input' : (reply == null ? '/reply' : '/reply/update')}}" method="post"
+        <form th:action="@{${inquiry == null ? '/input' : (#authorization.expression('hasRole(''USER'')') ? '/inquiry/update' : (reply == null ? '/reply' : '/reply/update'))}}" method="post"
             enctype="multipart/form-data">
             <th:block th:if="${inquiry != null}">
                 <input type="hidden" name="inquiryId" th:value="${inquiry.inquiryId}">
@@ -39,7 +39,8 @@
                             <th>제목 <span class="required">*</span></th>
                             <td>
                                 <input type="text" name="title" class="input-text" placeholder="제목을 입력해 주세요." required
-                                    th:value="${#authorization.expression('hasRole(''ADMIN'')') and inquiry != null ? '[' + inquiry.title + '에 대한 답변]' : ''}">
+                                    th:value="${#authorization.expression('hasRole(''ADMIN'')') and inquiry != null ? '[' + inquiry.title + '에 대한 답변]' : (inquiry != null ? inquiry.title : '')}"
+                                    th:readonly="${#authorization.expression('hasRole(''ADMIN'')') and inquiry != null and inquiry.manager != '김담당'}">
                             </td>
                         </tr>
                         <tr>
@@ -61,10 +62,10 @@
                             <td>
                                 <th:block sec:authorize="hasRole('USER')">
                                     <select name="organization" class="input-text short" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-                                        <option value="" disabled selected>선택해 주세요</option>
-                                        <option value="서울시청">서울시청</option>
-                                        <option value="강남구청">강남구청</option>
-                                        <option value="서초구청">서초구청</option>
+                                        <option value="" disabled th:selected="${inquiry == null}">선택해 주세요</option>
+                                        <option value="서울시청" th:selected="${inquiry != null and inquiry.organization == '서울시청'}">서울시청</option>
+                                        <option value="강남구청" th:selected="${inquiry != null and inquiry.organization == '강남구청'}">강남구청</option>
+                                        <option value="서초구청" th:selected="${inquiry != null and inquiry.organization == '서초구청'}">서초구청</option>
                                     </select>
                                 </th:block>
                                 <th:block sec:authorize="!hasRole('USER')">
@@ -78,18 +79,24 @@
                             <th>담당자 <span class="required">*</span></th>
                             <td>
                                 <th:block sec:authorize="hasRole('ADMIN')">
-                                    김담당
-                                    <input type="hidden" name="manager" value="김담당">
+                                    <span th:text="${inquiry != null ? inquiry.manager : '김담당'}"></span>
+                                    <input type="hidden" name="manager" th:value="${inquiry != null ? inquiry.manager : '김담당'}">
                                 </th:block>
                                 <th:block sec:authorize="!hasRole('ADMIN')">
-                                    <input type="text" name="manager" class="input-text short">
+                                    <select name="manager" class="input-text short" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                                        <option value="" disabled th:selected="${inquiry == null}">선택해 주세요</option>
+                                        <option value="김담당" th:selected="${inquiry != null and inquiry.manager == '김담당'}">김담당</option>
+                                        <option value="이담당" th:selected="${inquiry != null and inquiry.manager == '이담당'}">이담당</option>
+                                        <option value="임담당" th:selected="${inquiry != null and inquiry.manager == '임담당'}">임담당</option>
+                                    </select>
                                 </th:block>
                             </td>
                         </tr>
                         <tr sec:authorize="hasRole('ADMIN')" th:if="${inquiry != null}">
                             <th>처리 상태</th>
                             <td>
-                                <select name="status" class="input-text short" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                                <select name="status" class="input-text short" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+                                        th:disabled="${inquiry != null and inquiry.manager != '김담당'}">
                                     <option value="WAITING" th:selected="${inquiry?.status?.name() == 'WAITING'}">처리 대기</option>
                                     <option value="IN_PROGRESS" th:selected="${inquiry?.status?.name() == 'IN_PROGRESS'}">진행 중</option>
                                     <option value="DONE" th:selected="${inquiry?.status?.name() == 'DONE'}">처리 완료</option>
@@ -99,18 +106,31 @@
                         <tr>
                             <th>내용 <span class="required">*</span></th>
                             <td>
-                                <textarea th:name="${inquiry != null ? 'replyContents' : 'contents'}"
+                                <textarea th:name="${inquiry != null and #authorization.expression('hasRole(''ADMIN'')') ? 'replyContents' : 'contents'}"
                                     class="input-textarea" placeholder="내용을 입력해 주세요."
                                     oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight + 2) + 'px';"
-                                    required th:text="${reply != null ? reply.replyContents : ''}"></textarea>
+                                    required th:text="${reply != null ? reply.replyContents : (inquiry != null ? inquiry.contents : '')}"
+                                    th:readonly="${#authorization.expression('hasRole(''ADMIN'')') and inquiry != null and inquiry.manager != '김담당'}"></textarea>
                             </td>
                         </tr>
                         <tr>
                             <th>파일 첨부</th>
                             <td>
                                 <div class="file-upload-box">
+                                    <th:block th:if="${(reply != null and reply.fileName != null and !reply.fileName.isEmpty()) or (#authorization.expression('hasRole(''USER'')') and inquiry != null and inquiry.fileName != null and !inquiry.fileName.isEmpty())}">
+                                        <div id="existing-file-box" style="margin-bottom: 8px; font-size: 14px; display: flex; align-items: center;">
+                                            <span th:text="'기존 첨부파일: ' + ${reply != null ? reply.fileName : inquiry.fileName}"></span>
+                                            <input type="hidden" name="fileName" th:value="${reply != null ? reply.fileName : inquiry.fileName}">
+                                            <input type="hidden" id="remove-file-input" name="removeFile" value="false">
+                                            <button type="button" style="margin-left: 8px; cursor: pointer; background: none; border: none; color: #ff4d4f; font-weight: bold; font-size: 14px; padding: 0;" 
+                                                    onclick="document.getElementById('existing-file-box').style.display='none'; document.getElementById('remove-file-input').value='true';" title="파일 삭제">
+                                                &#10006;
+                                            </button>
+                                        </div>
+                                    </th:block>
                                     <!-- 'name="attachedFile"' 은 Inquiry 객체의 MultipartFile 필드명과 일치해야 합니다 -->
-                                    <input type="file" id="file-input" name="attachedFile">
+                                    <input type="file" id="file-input" name="attachedFile"
+                                           th:disabled="${#authorization.expression('hasRole(''ADMIN'')') and inquiry != null and inquiry.manager != '김담당'}">
                                 </div>
                             </td>
                         </tr>
@@ -119,7 +139,8 @@
             </div>
 
             <div class="button-group">
-                <button type="submit" class="btn btn-submit">등록</button>
+                <button type="submit" class="btn btn-submit"
+                        th:if="${!(#authorization.expression('hasRole(''ADMIN'')') and inquiry != null and inquiry.manager != '김담당')}">등록</button>
                 <button type="button" class="btn btn-delete" th:onclick="|location.href='@{/main}'|">취소</button>
             </div>
         </form>

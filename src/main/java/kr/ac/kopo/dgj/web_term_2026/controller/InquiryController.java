@@ -105,4 +105,29 @@ public class InquiryController {
         inquiryService.updateInquiryStatus(inquiryId, status);
         return "redirect:/detail?id=" + inquiryId;
     }
+
+    // 문의 수정 처리: POST /inquiry/update
+    @PostMapping("/inquiry/update")
+    public String updateInquiry(@ModelAttribute Inquiry inquiry, 
+                                @RequestParam(value = "removeFile", defaultValue = "false") boolean removeFile) throws java.io.IOException {
+        if (removeFile) {
+            inquiry.setFileName(null);
+        } else if (inquiry.getAttachedFile() != null && !inquiry.getAttachedFile().isEmpty()) {
+            org.springframework.web.multipart.MultipartFile file = inquiry.getAttachedFile();
+            String fullPath = "D:/upload/" + file.getOriginalFilename();
+            file.transferTo(new java.io.File(fullPath));
+            inquiry.setFileName(file.getOriginalFilename());
+        }
+        
+        inquiryService.updateInquiry(inquiry);
+        
+        return "redirect:/detail?id=" + inquiry.getInquiryId();
+    }
+
+    // 문의 삭제 처리: POST /inquiry/delete
+    @PostMapping("/inquiry/delete")
+    public String deleteInquiry(@RequestParam("inquiryId") String inquiryId) {
+        inquiryService.deleteInquiry(inquiryId);
+        return "redirect:/main";
+    }
 }

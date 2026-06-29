@@ -18,4 +18,8 @@ public interface InquiryRepository {
     void setNewInquiry(Inquiry inquiry) ;
 
     void updateInquiryStatus(String inquiryId, InquiryStatus status);
+
+    void updateInquiry(Inquiry inquiry);
+
+    void deleteInquiry(String inquiryId);
 }
