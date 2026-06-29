@@ -13,41 +13,7 @@ body {
     color: #333;
 }
 
-.main-header {
-    background-color: #4a5568;
-    color: #fff;
-    padding: 15px 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
 
-.header-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.logo span {
-    color: #a3bffa;
-}
-
-.header-nav a {
-    color: #e2e8f0;
-    text-decoration: none;
-    margin-left: 20px;
-    font-size: 0.9rem;
-}
-
-.header-nav a:hover {
-    color: #fff;
-}
 
 .login-container {
     flex: 1;
@@ -115,11 +81,4 @@ body {
 .btn-login:hover {
     background-color: #a88787;
 }
-
-.main-footer {
-    background-color: #e2e8f0;
-    text-align: center;
-    padding: 15px 0;
-    font-size: 0.85rem;
-    color: #718096;
-}
+

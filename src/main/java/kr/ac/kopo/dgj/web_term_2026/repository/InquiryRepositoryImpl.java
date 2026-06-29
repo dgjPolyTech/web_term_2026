@@ -53,6 +53,51 @@ public class InquiryRepositoryImpl implements InquiryRepository{
     }
 
     @Override
+    public List<Inquiry> searchInquiryList(String searchType, String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return getAllInquiryList();
+        }
+        
+        List<Inquiry> searchResult = new ArrayList<>();
+        String lowerKeyword = keyword.trim().toLowerCase();
+
+        for (Inquiry inquiry : ListOfInquirys) {
+            boolean match = false;
+            switch (searchType) {
+                case "title":
+                    if (inquiry.getTitle() != null && inquiry.getTitle().toLowerCase().contains(lowerKeyword)) {
+                        match = true;
+                    }
+                    break;
+                case "organization":
+                    if (inquiry.getOrganization() != null && inquiry.getOrganization().toLowerCase().contains(lowerKeyword)) {
+                        match = true;
+                    }
+                    break;
+                case "requester":
+                    if (inquiry.getRequester() != null && inquiry.getRequester().toLowerCase().contains(lowerKeyword)) {
+                        match = true;
+                    }
+                    break;
+                case "status":
+                    String statusName = "";
+                    if (inquiry.getStatus() == InquiryStatus.WAITING) statusName = "처리 대기";
+                    else if (inquiry.getStatus() == InquiryStatus.IN_PROGRESS) statusName = "진행 중";
+                    else if (inquiry.getStatus() == InquiryStatus.DONE) statusName = "처리 완료";
+                    
+                    if (statusName.contains(lowerKeyword) || statusName.replace(" ", "").contains(lowerKeyword.replace(" ", ""))) {
+                        match = true;
+                    }
+                    break;
+            }
+            if (match) {
+                searchResult.add(inquiry);
+            }
+        }
+        return searchResult;
+    }
+
+    @Override
     public Inquiry getInquiryId(String inquiryId) {
         // inquiry 객체를 null 값으로 선언해둔다.
         Inquiry inquiry = null;

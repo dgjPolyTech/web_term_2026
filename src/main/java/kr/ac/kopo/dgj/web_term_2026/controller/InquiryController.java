@@ -34,8 +34,18 @@ public class InquiryController {
 
     // 메인 페이지: http://localhost:8080/main
     @GetMapping("/main")
-    public String viewMain(Model model) {
-        List<Inquiry> inquiryList = inquiryService.getAllInquiryList();
+    public String viewMain(
+            @RequestParam(value = "searchType", required = false) String searchType,
+            @RequestParam(value = "keyword", required = false) String keyword,
+            Model model) {
+        
+        List<Inquiry> inquiryList;
+        if (searchType != null && keyword != null && !keyword.trim().isEmpty()) {
+            inquiryList = inquiryService.searchInquiryList(searchType, keyword);
+        } else {
+            inquiryList = inquiryService.getAllInquiryList();
+        }
+        
         model.addAttribute("inquiryList", inquiryList);
         return "view_main";
     }

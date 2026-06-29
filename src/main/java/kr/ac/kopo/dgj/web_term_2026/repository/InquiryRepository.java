@@ -8,6 +8,8 @@ import java.util.List;
 public interface InquiryRepository {
 
     List<Inquiry> getAllInquiryList(); // 문의 리스트
+    
+    List<Inquiry> searchInquiryList(String searchType, String keyword); // 문의 검색
 
     Inquiry getInquiryId(String inquiryId); // 특정 문의 가져오기
 

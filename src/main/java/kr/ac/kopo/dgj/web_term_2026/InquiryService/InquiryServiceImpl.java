@@ -24,6 +24,11 @@ public class InquiryServiceImpl implements InquiryService{
     }
 
     @Override
+    public List<Inquiry> searchInquiryList(String searchType, String keyword) {
+        return inquiryRepository.searchInquiryList(searchType, keyword);
+    }
+
+    @Override
     public Inquiry getInquiryId(String inquiryId) {
         return inquiryRepository.getInquiryId(inquiryId);
     }

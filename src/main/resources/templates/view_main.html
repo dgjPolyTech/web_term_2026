@@ -20,15 +20,18 @@
         </div>
 
         <th:block sec:authorize="isAuthenticated()">
-        <div class="search-wrap">
-            <select class="search-select">
-                <option>제목</option>
+        <form class="search-wrap" th:action="@{/main}" method="get">
+            <select name="searchType" class="search-select">
+                <option value="title" th:selected="${param.searchType != null and param.searchType[0] == 'title'}">제목</option>
+                <option value="organization" th:selected="${param.searchType != null and param.searchType[0] == 'organization'}">기관</option>
+                <option value="requester" th:selected="${param.searchType != null and param.searchType[0] == 'requester'}">작성자</option>
+                <option value="status" th:selected="${param.searchType != null and param.searchType[0] == 'status'}">처리여부</option>
             </select>
-            <input type="text" class="search-input" placeholder="검색어를 입력하세요">
-            <button class="search-btn">
+            <input type="text" name="keyword" class="search-input" placeholder="검색어를 입력하세요" th:value="${param.keyword}">
+            <button type="submit" class="search-btn">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             </button>
-        </div>
+        </form>
 
         <table class="board-table">
             <thead>
@@ -43,6 +46,11 @@
                 </tr>
             </thead>
             <tbody>
+                <tr th:if="${#lists.isEmpty(inquiryList)}">
+                    <td colspan="7" style="text-align: center; padding: 40px 0; color: #666; font-size: 15px;">
+                        검색 조건에 일치하는 게시글이 없습니다.
+                    </td>
+                </tr>
                 <tr th:each="inquiry : ${inquiryList}">
                     <td class="text-left">
                         <a th:href="@{/detail(id=${inquiry.inquiryId})}" th:text="${inquiry.title}">제목</a>
@@ -69,6 +77,12 @@
                 <a th:href="@{/input}" class="btn-write" sec:authorize="hasRole('USER')" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">글쓰기</a>
             </div>
         </div>
+        </th:block>
+        
+        <th:block sec:authorize="!isAuthenticated()">
+            <div style="text-align: center; padding: 50px 0; font-size: 16px; color: #555; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px;">
+                게시글 열람은 로그인이 필요합니다.
+            </div>
         </th:block>
     </main>
 
