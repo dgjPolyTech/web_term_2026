@@ -1,6 +1,7 @@
 package kr.ac.kopo.dgj.web_term_2026.repository;
 
 import kr.ac.kopo.dgj.web_term_2026.domain.Inquiry;
+import kr.ac.kopo.dgj.web_term_2026.domain.InquiryStatus;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -90,4 +91,11 @@ public class InquiryRepositoryImpl implements InquiryRepository{
         ListOfInquirys.add(inquiry);
     }
 
+    @Override
+    public void updateInquiryStatus(String inquiryId, InquiryStatus status) {
+        Inquiry inquiry = getInquiryId(inquiryId);
+        if (inquiry != null) {
+            inquiry.setStatus(status);
+        }
+    }
 }

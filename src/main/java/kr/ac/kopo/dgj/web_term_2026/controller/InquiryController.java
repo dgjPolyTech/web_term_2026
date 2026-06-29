@@ -89,4 +89,10 @@ public class InquiryController {
 
         return "redirect:/main";
     }
+    // 상태 변경 (Admin)
+    @PostMapping("/inquiry/status")
+    public String updateStatus(@RequestParam("inquiryId") String inquiryId, @RequestParam("status") kr.ac.kopo.dgj.web_term_2026.domain.InquiryStatus status) {
+        inquiryService.updateInquiryStatus(inquiryId, status);
+        return "redirect:/detail?id=" + inquiryId;
+    }
 }

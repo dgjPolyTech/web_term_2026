@@ -1,6 +1,7 @@
 package kr.ac.kopo.dgj.web_term_2026.repository;
 
 import kr.ac.kopo.dgj.web_term_2026.domain.Inquiry;
+import kr.ac.kopo.dgj.web_term_2026.domain.InquiryStatus;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface InquiryRepository {
     List<Inquiry> getInquiryListByOrganization(String organization); // 특정 기관의 문의 목록 가져오기
 
     void setNewInquiry(Inquiry inquiry) ;
+
+    void updateInquiryStatus(String inquiryId, InquiryStatus status);
 }

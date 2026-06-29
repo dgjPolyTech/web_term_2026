@@ -1,0 +1,73 @@
+/* Common Header Styles */
+.header {
+    background-color: #556073;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.header-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+.brand-highlight {
+    color: #90caf9;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+.user-menu {
+    display: flex;
+    align-items: center;
+}
+.welcome-msg {
+    color: #ffffff;
+    font-size: 13px;
+    margin-right: 10px;
+}
+.user-menu a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 15px;
+    font-size: 13px;
+    transition: color 0.2s;
+}
+.user-menu a:hover {
+    color: #90caf9;
+}
+
+/* Common Footer Styles */
+.footer {
+    background-color: #f1f5f9;
+    padding: 30px 0;
+    width: 100%;
+    font-size: 13px;
+    color: #64748b;
+    border-top: 1px solid #e2e8f0;
+    margin-top: auto;
+}
+.footer-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.footer-info span, .footer-contact span {
+    margin-right: 15px;
+}
+.company-name {
+    font-weight: bold;
+    color: #334155;
+    font-size: 14px;
+}
+.footer-copyright {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #94a3b8;
+}
