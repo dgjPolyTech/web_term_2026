@@ -1,7 +1,9 @@
 package kr.ac.kopo.dgj.web_term_2026.controller;
 
 import kr.ac.kopo.dgj.web_term_2026.InquiryService.InquiryService;
+import kr.ac.kopo.dgj.web_term_2026.ReplyService.ReplyService;
 import kr.ac.kopo.dgj.web_term_2026.domain.Inquiry;
+import kr.ac.kopo.dgj.web_term_2026.domain.Reply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +18,12 @@ import java.util.List;
 public class InquiryController {
 
     private final InquiryService inquiryService;
+    private final ReplyService replyService;
 
     @Autowired
-    public InquiryController(InquiryService inquiryService) {
+    public InquiryController(InquiryService inquiryService, ReplyService replyService) {
         this.inquiryService = inquiryService;
+        this.replyService = replyService;
     }
 
     // 로그인 페이지: http://localhost:8080/login
@@ -36,19 +40,31 @@ public class InquiryController {
         return "view_main";
     }
 
-    // view_detail 페이지: http://localhost:8081/view_detail
+    // view_detail 페이지: http://localhost:8080/dgjs/detail?id=ISIN-0001
     @GetMapping("/detail")
     public String viewDetail(@RequestParam(value = "id", required = false) String id, Model model) {
         if (id != null) {
             Inquiry inquiry = inquiryService.getInquiryId(id);
             model.addAttribute("inquiry", inquiry);
+
+            // 해당 문의에 연계된 답변 조회 (없으면 null)
+            Reply reply = replyService.getReplyByInquiryId(id);
+            model.addAttribute("reply", reply);
         }
         return "view_detail";
     }
 
-    // 문의 등록 폼 페이지: http://localhost:8081/view_input
+    // 문의 등록/답변 등록 폼 페이지: GET /input (또는 /input?id=ISIN-0001)
     @GetMapping("/input")
-    public String viewInput() {
+    public String viewInput(@RequestParam(value = "id", required = false) String id, Model model) {
+        if (id != null) {
+            // view_detail에서 답변 등록/수정 버튼으로 진입한 경우
+            Inquiry inquiry = inquiryService.getInquiryId(id);
+            model.addAttribute("inquiry", inquiry);
+
+            Reply reply = replyService.getReplyByInquiryId(id);
+            model.addAttribute("reply", reply); // 없으면 null (신규 등록), 있으면 기존 답변 (수정)
+        }
         return "view_input";
     }
 
